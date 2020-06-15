@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dvp.jidch.mapper.DongTaiGuanLiMapper">
+    <select id="findALL" resultType="com.dvp.jidch.model.DongTaiGuanLi">
+        SELECT  jylsh AS id, dpdtjyy AS name, '20' + SUBSTRING(jylsh, 8, 6) AS riqi, hphm, hpzl, jycs
+FROM      pda_db.dbo.AC_DATA_DYN AS d
+WHERE   (dpdtjyy IS NOT NULL)
+    </select>
+
+    <select id="getListByName" resultType="com.dvp.jidch.model.DongTaiGuanLi">
+        SELECT  jylsh AS id, dpdtjyy AS name, '20' + SUBSTRING(jylsh, 8, 6) AS riqi, hphm, hpzl, jycs
+FROM      pda_db.dbo.AC_DATA_DYN AS d
+WHERE   (dpdtjyy IS NOT NULL) and dpdtjyy like  concat('%', #{name },'%')
+    </select>
+
+</mapper>

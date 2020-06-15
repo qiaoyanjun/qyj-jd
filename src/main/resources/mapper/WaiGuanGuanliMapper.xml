@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dvp.jidch.mapper.WaiGuanGuanLiMapper">
+    <select id="findALL" resultType="com.dvp.jidch.model.WaiGuanGuanLi">
+        SELECT  jylsh AS id, wjy, '20' + SUBSTRING(jylsh, 8, 6) AS riqi, hphm, clpp1, jylb
+FROM      pda_db.dbo.AC_DATA_WG
+WHERE   (wjy IS NOT NULL)
+    </select>
+
+    <select id="getListByWjy" resultType="com.dvp.jidch.model.WaiGuanGuanLi">
+        SELECT  jylsh AS id, wjy, '20' + SUBSTRING(jylsh, 8, 6) AS riqi, hphm, clpp1, jylb
+FROM      pda_db.dbo.AC_DATA_WG
+WHERE   (wjy IS NOT NULL) and wjy like  concat('%', #{wjy },'%')
+    </select>
+
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dvp.jidch.mapper.DynWaiGMapper">
+    <select id="findALL" resultType="com.dvp.jidch.model.DynWaiG">
+        SELECT  DISTINCT ROW_NUMBER() OVER (ORDER BY wjy DESC) id,   wjy as name, COUNT(1) AS ciS,
+        SUM(CASE jycs WHEN 1 THEN 1 ELSE 0 END) AS jc1, SUM(CASE jycs WHEN 2 THEN 1 ELSE 0 END) AS jc2,
+        SUM(CASE jycs WHEN 3 THEN 1 ELSE 0 END) AS jc3, SUM(CASE jycs WHEN 4 THEN 1 ELSE 0 END) AS jc4
+     FROM       pda_db.dbo.AC_DATA_WG AS w
+     WHERE    (wjy IS NOT NULL)
+     GROUP BY wjy
+
+    </select>
+
+    <select id="getListByName" resultType="com.dvp.jidch.model.DynWaiG">
+        SELECT  DISTINCT ROW_NUMBER() OVER (ORDER BY wjy DESC) id,   wjy as name, COUNT(1) AS ciS,
+        SUM(CASE jycs WHEN 1 THEN 1 ELSE 0 END) AS jc1, SUM(CASE jycs WHEN 2 THEN 1 ELSE 0 END) AS jc2,
+        SUM(CASE jycs WHEN 3 THEN 1 ELSE 0 END) AS jc3, SUM(CASE jycs WHEN 4 THEN 1 ELSE 0 END) AS jc4
+        FROM       pda_db.dbo.AC_DATA_WG AS w
+        <where >
+            wjy IS NOT NULL
+            <if test="wjy != null and wjy != ''">
+                and  wjy like  concat('%', #{wjy },'%')
+            </if>
+            <if test="startData != null and startData != ''">
+                and '20' + SUBSTRING(jylsh, 8, 6) &gt;= #{startData}
+            </if>
+
+            <if test="stopData != null and stopData != ''">
+                and '20' + SUBSTRING(jylsh, 8, 6) &lt;= #{stopData}
+            </if>
+        </where>
+        GROUP BY wjy
+    </select>
+
+</mapper>
